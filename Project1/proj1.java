@@ -63,34 +63,46 @@ public class proj1 {
     }
 
     /**
-     * Reads filename from user until the file exists, then return a file
-     * scanner
+     * Returns a Scanner for input from a file.
      *
-     * @param console Scanner that reads from the console
-     *
-     * @return a scanner to read input from the file
-     * @throws FileNotFoundException if File does not exist
+     * @param console Scanner for console
+     * @return Scanner for input from a file
      */
-     public static Scanner getInputScanner(Scanner console) throws FileNotFoundException
-     {
-         System.out.print("Enter a file name to process: ");
+    public static Scanner getInputScanner(Scanner console) {
+        Scanner input = null;
+        while (input == null) {
+            System.out.print("input file name? ");
+            String name = console.nextLine();
+            try {
+                input = new Scanner(new File(name));
+            } catch (FileNotFoundException e) {
+                System.out.println("File not found. Please try again.");
+            }
+        }
+        return input;
+    }
 
-         /** a file object of the file named by the user */
-         File file = new File(console.next());
-
-         while (!file.exists())
-         {
-             // ASSERT: file.exists() returns false
-             System.out.print("File doesn't exist. " + "Enter a file name to process: ");
-             file = new File(console.next());
-         }
-         // ASSERT: file.exsits() returns true
-
-         /** a Scanner object of the file, so that it can be read */
-         Scanner fileScanner = new Scanner(file);
-
-         return fileScanner;
-     }
+    /**
+     * Returns a PrintStream for output to a file. NOTE: If file exists, this
+     * code will overwrite the existing file. It is likely that you want to add
+     * additional tests.
+     *
+     * @param console Scanner for console.
+     * @return PrintStream for output to a file
+     */
+    public static PrintStream getOutputPrintStream(Scanner console) {
+        PrintStream outputFile = null;
+        while (outputFile == null) {
+            System.out.print("output file name? ");
+            String name = console.nextLine();
+            try {
+                outputFile = new PrintStream(new File(name));
+            } catch (FileNotFoundException e) {
+                System.out.println("File unable to be written. Please try again.");
+            }
+        }
+        return outputFile;
+    }
 
     /**
      * This class models the state and behavior of a LinkedList.
