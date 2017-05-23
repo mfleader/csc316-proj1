@@ -62,7 +62,8 @@ public class proj1 {
     /**
      * Returns a Scanner for input from a file.
      *
-     * @param console Scanner for console
+     * @param console
+     *              Scanner for console
      * @return Scanner for input from a file
      */
     public static Scanner getInputScanner(Scanner console) {
@@ -83,28 +84,92 @@ public class proj1 {
 
 
     /**
-     * This class models the state and behavior of a LinkedList.
+     * This class models the state and behavior of a Linked List Stack
      *
      */
     private class LinkedList {
 
         /** the first element in the collection */
         private Node front;
-        /** the last element in the collection */
-        private Node back;
         /** size of the list */
         private int size;
 
         /**
-         * Construct a Linked List
+         * Construct a Doubly Linked List
          */
         public LinkedList() {
-            front = new ListNode(null);
-            back = new ListNode(null);
-            front.next = back;
-            back.prev = front;
+            front = new Node(null);
             size = 0;
         }
+
+        public isEmpty() {
+            return first == null;
+        }
+
+        /**
+         * Add an item to the front, or if it is already on the list, then move
+         * element the containing data equal to the parameter to the front.
+         * @param data
+         *              the data to add to the list
+         */
+        public void add(String data) {
+            remove(data);
+            front = new Node(data, front);
+        }
+
+        /**
+         * Remove a Node with the given data, if it exists
+         * @param data
+         *              the data to remove from the list
+         * @return the Node removed from the list
+         */
+        private String remove(String data) {
+            Node current = front;
+            Node previous = null;
+            while (current != null && !current.data.equals(data)) {
+                previous = current;
+                current = current.next;
+            }
+            if (current != null) {
+                if (current == front) {
+                    front = front.next;
+                } else {
+                    previous.next = current.next;
+                }
+                return current.data;
+            }
+            return null;
+        }
+
+        /**
+         * Find a String on the list.
+         * @param data
+         *              the String to look for on the list
+         * @return if the String is on the list, then return the index,
+         *          otherwise return 0
+         */
+        public int find(String data) {
+            int index = 0;
+            for (Node k = front; k != null; k = k.next) {
+                if (k.data.equals(data)) {
+                    return index;
+                }
+                index++;
+            }
+            return index;
+        }
+
+        /**
+         * Remove a Node at a given index
+         * @param index
+         *              the index of the element to remove from the list
+         * @return the Node removed from the list
+         */
+        private Node remove(int index) {
+
+        }
+
+
 
         /**
          * This class models the state and behavior of a Node in the
@@ -116,8 +181,6 @@ public class proj1 {
     		private String data;
     		/** a reference to the next element in the list */
     		private Node next;
-            /** a reference to the the previous element in the list */
-            private Node prev;
 
             /**
              * Constructs a Node given data and a pointer to the next element.
@@ -125,13 +188,10 @@ public class proj1 {
              *              the data in this element
              * @param next
              *              the pointer to the next element
-             * @param prev
-             *              the pointer to the previous element
              */
-            public Node(String data, Node next, Node prev) {
+            public Node(String data, Node next) {
                 this.data = data;
                 this.next = next;
-                this.prev = prev;
             }
 
             /**
@@ -140,36 +200,9 @@ public class proj1 {
              *              the data in this element
              */
             public Node(String data) {
-                this(data, null, null);
+                this(data, null);
             }
         }
-    }
-
-    /**
-     * This method gets the arguments supplied to the main method and
-     * creates a Scanner object representation of the input file.
-     * @param mainArgs the argument given to the main method
-     * @return a Scanner object representation of the input file
-     */
-    public static Scanner getArgInput(String[] mainArgs) {
-        /** A Scanner object representation of the input file */
-        Scanner input = null;
-        if (mainArgs.length == 1) {
-            // ASSERT: mainArgs.length == 1
-            /** the file name supplied as argument to the program startup */
-            String fileName = mainArgs[0];
-            try {
-                input = new Scanner(new File(mainArgs[0]));
-            } catch (FileNotFoundException e) {
-                System.out.println("Unable to access input file: " + fileName);
-                System.exit(1);
-            }
-        } else {
-            // ASSERT: mainArg.length != 1
-            System.out.println("Usage: java proj1 filename");
-            System.exit(1);
-        }
-        return input;
     }
 
 
