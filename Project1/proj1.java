@@ -89,18 +89,35 @@ public class proj1 {
     private class LinkedList {
 
         /** the first element in the collection */
-        private Node head;
+        private Node front;
+        /** the last element in the collection */
+        private Node back;
+        /** size of the list */
+        private int size;
+
+        /**
+         * Construct a Linked List
+         */
+        public LinkedList() {
+            front = new ListNode(null);
+            back = new ListNode(null);
+            front.next = back;
+            back.prev = front;
+            size = 0;
+        }
 
         /**
          * This class models the state and behavior of a Node in the
          * LinkedList.
          */
-        public class Node {
+        private class Node {
 
             /** the data within the element */
     		private String data;
     		/** a reference to the next element in the list */
-    		private ListNode next;
+    		private Node next;
+            /** a reference to the the previous element in the list */
+            private Node prev;
 
             /**
              * Constructs a Node given data and a pointer to the next element.
@@ -108,20 +125,22 @@ public class proj1 {
              *              the data in this element
              * @param next
              *              the pointer to the next element
+             * @param prev
+             *              the pointer to the previous element
              */
-            public Node(String data, Node next) {
+            public Node(String data, Node next, Node prev) {
                 this.data = data;
-                this.next = null;
+                this.next = next;
+                this.prev = prev;
             }
 
             /**
-             * Constructs a Node when give data and no pointer to the
-             * next element.
+             * Constructs a Node with null pointers
              * @param data
              *              the data in this element
              */
             public Node(String data) {
-                this(data, null);
+                this(data, null, null);
             }
         }
     }
