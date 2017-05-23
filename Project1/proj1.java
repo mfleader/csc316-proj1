@@ -12,54 +12,20 @@ public class proj1 {
 
     public static void main(String[] args) {
 
-        /*
-        Not sure if we are doing input as program arguments or not
-        if (args.length == 0) {
-            new BattleshipGUI(new Battleship());
-        }
-
-        else if (args.length == 1) {
-            try {
-                int seed = Integer.parseInt(args[0]);
-                new BattleshipGUI(new Battleship(seed));
-            }
-            catch (NumberFormatException e) {
-                usageMessage();
-                System.exit(1);
-            }
-        }
-        else {
-            usageMessage();
-            System.exit(1);
-        }
-        */
-    }
-
-    /**
-     * This method gets the arguments supplied to the main method and
-     * creates a Scanner object representation of the input file.
-     * @param mainArgs the argument given to the main method
-     * @return a Scanner object representation of the input file
-     */
-    public static Scanner getArgInput(String[] mainArgs) {
-        /** A Scanner object representation of the input file */
-        Scanner input = null;
-        if (mainArgs.length == 1) {
-            // ASSERT: mainArgs.length == 1
-            /** the file name supplied as argument to the program startup */
-            String fileName = mainArgs[0];
-            try {
-                input = new Scanner(new File(mainArgs[0]));
-            } catch (FileNotFoundException e) {
-                System.out.println("Unable to access input file: " + fileName);
-                System.exit(1);
-            }
+        if (args.length < 1) {
+            // Compress text
         } else {
-            // ASSERT: mainArg.length != 1
-            System.out.println("Usage: java proj1 filename");
-            System.exit(1);
+            // Compress or decompress text from a filename arguments given
+            for (int k = 0; k < args.length; k++) {
+                Scanner input = getInputScanner(args[k]);
+                if (input.next().equals("0")) {
+                    // Decompress
+                } else {
+                    // Compress
+                }
+            }
         }
-        return input;
+
     }
 
     /**
@@ -82,27 +48,8 @@ public class proj1 {
         return input;
     }
 
-    /**
-     * Returns a PrintStream for output to a file. NOTE: If file exists, this
-     * code will overwrite the existing file. It is likely that you want to add
-     * additional tests.
-     *
-     * @param console Scanner for console.
-     * @return PrintStream for output to a file
-     */
-    public static PrintStream getOutputPrintStream(Scanner console) {
-        PrintStream outputFile = null;
-        while (outputFile == null) {
-            System.out.print("output file name? ");
-            String name = console.nextLine();
-            try {
-                outputFile = new PrintStream(new File(name));
-            } catch (FileNotFoundException e) {
-                System.out.println("File unable to be written. Please try again.");
-            }
-        }
-        return outputFile;
-    }
+
+
 
     /**
      * This class models the state and behavior of a LinkedList.
@@ -146,5 +93,56 @@ public class proj1 {
                 this(data, null);
             }
         }
+    }
+
+    /**
+     * This method gets the arguments supplied to the main method and
+     * creates a Scanner object representation of the input file.
+     * @param mainArgs the argument given to the main method
+     * @return a Scanner object representation of the input file
+     */
+    public static Scanner getArgInput(String[] mainArgs) {
+        /** A Scanner object representation of the input file */
+        Scanner input = null;
+        if (mainArgs.length == 1) {
+            // ASSERT: mainArgs.length == 1
+            /** the file name supplied as argument to the program startup */
+            String fileName = mainArgs[0];
+            try {
+                input = new Scanner(new File(mainArgs[0]));
+            } catch (FileNotFoundException e) {
+                System.out.println("Unable to access input file: " + fileName);
+                System.exit(1);
+            }
+        } else {
+            // ASSERT: mainArg.length != 1
+            System.out.println("Usage: java proj1 filename");
+            System.exit(1);
+        }
+        return input;
+    }
+
+
+
+    /**
+     * Returns a PrintStream for output to a file. NOTE: If file exists, this
+     * code will overwrite the existing file. It is likely that you want to add
+     * additional tests.
+     *
+     * @param console Scanner for console.
+     * @return PrintStream for output to a file
+     */
+    public static PrintStream getOutputPrintStream(Scanner console) {
+        PrintStream outputFile = null;
+        while (outputFile == null) {
+            System.out.print("output file name? ");
+            String name = console.nextLine();
+            try {
+                outputFile = new PrintStream(new File(name));
+            } catch (FileNotFoundException e) {
+                System.out.println("File unable to be written. Please try again.");
+            }
+        }
+        return outputFile;
     }
 }
