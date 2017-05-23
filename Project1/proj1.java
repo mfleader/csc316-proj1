@@ -5,27 +5,58 @@ import java.io.*;
  * This program compresses and decompresses text files that contain no digits.
  *
  * @author Matthew F. Leader
- * Last Edited    2017.05.22
- * Created        2017.05.22
  */
 public class proj1 {
 
     public static void main(String[] args) {
 
         if (args.length < 1) {
-            // Compress text
+            Scanner keyboard = new Scanner(System.in);
+            // Validate No Digits in keyboard entry
+            if (validateNoDigits(keyboard)) {
+                // Compress text
+                compress(keyboard);
+            } else {
+                digitsUsageMessage();
+            }
         } else {
             // Compress or decompress text from a filename arguments given
             for (int k = 0; k < args.length; k++) {
                 Scanner input = getInputScanner(args[k]);
                 if (input.next().equals("0")) {
                     // Decompress
+                    decompress(text);
                 } else {
                     // Compress
+                    if (validateNoDigits(input)) {
+                        input = getInputScanner(args[k]);
+                        compress(input);
+                    } else {
+                        digitsUsageMessage();
+                    }
                 }
             }
         }
+    }
 
+    public static boolean validateNoDigits(Scanner text) {
+
+    }
+
+    public static void compress(Scanner text) {
+
+    }
+
+    public static void decompress(Scanner text) {
+
+    }
+
+    public static void digitsUsageMessage() {
+        System.out.println("Your text contains at least one digit from"
+                            + " the series 0, 1, 2, 3, 4, 5, 6, 7, 8, "
+                            + "9.");
+        System.out.println("Please remove all digits from your text"
+                            + " and try again.");
     }
 
     /**
