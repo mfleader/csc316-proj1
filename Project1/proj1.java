@@ -12,60 +12,39 @@ public class proj1 {
 
     public static void main(String[] args) {
 
-        System.out.println("Enter text without digits, so it can be compressed");
-        System.out.println("To exit compressor enter your favorite integer"
-                            + " (like 3 for example)");
+        Scanner console = new Scanner(System.in);
+        String filename = null;
+        Scanner input = null;
 
-        if (args.length < 1) {
-            Scanner keyboard = new Scanner(System.in);
-            // Validate No Digits in keyboard entry
-            if (validateNoDigits(keyboard)) {
-                // Compress text
-                compress(keyboard);
+        while (input == null) {
+            System.out.println("Text Compressor and Decompressor.")
+            System.out.print("input file name: ");
+            filename = console.nextLine();
+            input = getInputScanner(filename);
+        }
+
+        if (validateNoDigits(input)) {
+            input = getInputScanner(filename);
+            if (input.hasNextInt()) {
+                decompress(input);
             } else {
-                digitsUsageMessage();
+                compress(input);
             }
         } else {
-            // Compress or decompress text from a filename arguments given
-            for (int k = 0; k < args.length; k++) {
-                Scanner input = getArgInput(args[k]);
-                if (input.next().equals("0")) {
-                    // Decompress
-                    decompress(input);
-                } else {
-                    // Compress
-                    if (validateNoDigits(input)) {
-                        input = getArgInput(args[k]);
-                        compress(input);
-                    } else {
-                        digitsUsageMessage();
-                    }
-                }
-            }
+            digitsUsageMessage();
         }
     }
 
-    public static boolean validateNoDigits(Scanner file) {
+    public static boolean validateNoDigits(Scanner text) {
         return true;
     }
 
+
     public static void compress(Scanner text) {
-        LinkedList list = new LinkedList();
-        while (text.hasNextLine()) {
-            Scanner lineScanner = new Scanner(text.nextLine());
-            Pattern p = Pattern.compile("[^a-zA-Z]");
-            lineScanner.useDelimiter(p);
-            while (lineScanner.hasNext() && !lineScanner.hasNextInt()) {
-                list.add(lineScanner.next());
-            }
-        }
-        String[] array = list.toArray();
-        for (int k = 0; k < list.size; k++) {
-            System.out.println("array[" + k + "] = " + array[k]);
-        }
+
     }
 
-    public static void decompress(Scanner file) {
+    public static void decompress(Scanner text) {
 
     }
 
@@ -78,43 +57,22 @@ public class proj1 {
     }
 
     /**
-     * This method gets the arguments supplied to the main method and
-     * creates a Scanner object representation of the input file.
-     * @param mainArgs the argument given to the main method
-     * @return a Scanner object representation of the input file
-     */
-    public static Scanner getArgInput(String arg) {
-        /** A Scanner object representation of the input file */
-        Scanner input = null;
-        try {
-            input = new Scanner(new File(arg));
-        } catch (FileNotFoundException e) {
-            System.out.println("Unable to access input file: " + arg);
-            System.exit(1);
-        }
-        return input;
-    }
-
-    /**
      * Returns a Scanner for input from a file.
      *
      * @param console
      *              Scanner for console
      * @return Scanner for input from a file
      */
-    public static Scanner getInputScanner(Scanner console) {
+    public static Scanner getInputScanner(String filename) {
         Scanner input = null;
-        while (input == null) {
-            System.out.print("input file name? ");
-            String name = console.nextLine();
-            try {
-                input = new Scanner(new File(name));
-            } catch (FileNotFoundException e) {
-                System.out.println("File not found. Please try again.");
-            }
+        try {
+            input = new Scanner(new File(filename));
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found. Please try again.");
         }
         return input;
     }
+
 
     /**
      * This class models the state and behavior of a Linked List Stack
@@ -153,6 +111,24 @@ public class proj1 {
             remove(data);
             front = new Node(data, front);
             size++;
+        }
+
+        /**
+         * Find a String on the list.
+         * @param data
+         *              the String to look for on the list
+         * @return if the String is on the list, then return the index,
+         *          otherwise return 0
+         */
+        public int find(String data) {
+            int index = 0;
+            for (Node k = front; k != null; k = k.next) {
+                if (k.data.equals(data)) {
+                    return index;
+                }
+                index++;
+            }
+            return index;
         }
 
         /**
@@ -199,23 +175,7 @@ public class proj1 {
             return array;
         }
 
-        /**
-         * Find a String on the list.
-         * @param data
-         *              the String to look for on the list
-         * @return if the String is on the list, then return the index,
-         *          otherwise return 0
-         */
-        public int find(String data) {
-            int index = 0;
-            for (Node k = front; k != null; k = k.next) {
-                if (k.data.equals(data)) {
-                    return index;
-                }
-                index++;
-            }
-            return index;
-        }
+
 
         /**
          * Remove a Node at a given index
@@ -286,4 +246,24 @@ public class proj1 {
         }
         return outputFile;
     }
+
+    /**
+     * This method gets the arguments supplied to the main method and
+     * creates a Scanner object representation of the input file.
+     * @param mainArgs the argument given to the main method
+     * @return a Scanner object representation of the input file
+     */
+    public static Scanner getArgInput(String arg) {
+        /** A Scanner object representation of the input file */
+        Scanner input = null;
+        try {
+            input = new Scanner(new File(arg));
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to access input file: " + arg);
+            System.exit(1);
+        }
+        return input;
+    }
+
+
 }
