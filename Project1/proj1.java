@@ -80,9 +80,6 @@ public class proj1 {
         return input;
     }
 
-
-
-
     /**
      * This class models the state and behavior of a Linked List Stack
      *
@@ -95,15 +92,19 @@ public class proj1 {
         private int size;
 
         /**
-         * Construct a Doubly Linked List
+         * Construct a Linked List
          */
         public LinkedList() {
-            front = new Node(null);
+            front = null;
             size = 0;
         }
 
-        public isEmpty() {
+        public boolean isEmpty() {
             return first == null;
+        }
+
+        public int size() {
+            return size;
         }
 
         /**
@@ -115,6 +116,7 @@ public class proj1 {
         public void add(String data) {
             remove(data);
             front = new Node(data, front);
+            size++;
         }
 
         /**
@@ -136,9 +138,29 @@ public class proj1 {
                 } else {
                     previous.next = current.next;
                 }
+                size--;
                 return current.data;
             }
             return null;
+        }
+
+        /**
+         * Convert the Linked List to an array
+         * @return an array of the objects on the List
+         */
+        public static String[] toArray() {
+            String[] array = null;
+            if (!isEmpty()) {
+                array = new String[size];
+                int k = 0;
+                Node current = front;
+                while (k < size && current != null) {
+                    array[k] = current.data;
+                    k++;
+                    current = current.next;
+                }
+            }
+            return array;
         }
 
         /**
