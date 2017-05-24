@@ -1,5 +1,7 @@
 import java.util.*;
 import java.io.*;
+import java.util.regex.Pattern;
+
 
 /**
  * This program compresses and decompresses text files that contain no digits.
@@ -9,6 +11,10 @@ import java.io.*;
 public class proj1 {
 
     public static void main(String[] args) {
+
+        System.out.println("Enter text without digits, so it can be compressed");
+        System.out.println("To exit compressor enter your favorite integer"
+                            + " (like 3 for example)");
 
         if (args.length < 1) {
             Scanner keyboard = new Scanner(System.in);
@@ -22,14 +28,14 @@ public class proj1 {
         } else {
             // Compress or decompress text from a filename arguments given
             for (int k = 0; k < args.length; k++) {
-                Scanner input = getInputScanner(args[k]);
+                Scanner input = getArgInput(args[k]);
                 if (input.next().equals("0")) {
                     // Decompress
-                    decompress(text);
+                    decompress(input);
                 } else {
                     // Compress
                     if (validateNoDigits(input)) {
-                        input = getInputScanner(args[k]);
+                        input = getArgInput(args[k]);
                         compress(input);
                     } else {
                         digitsUsageMessage();
@@ -39,15 +45,27 @@ public class proj1 {
         }
     }
 
-    public static boolean validateNoDigits(Scanner text) {
-
+    public static boolean validateNoDigits(Scanner file) {
+        return true;
     }
 
     public static void compress(Scanner text) {
-
+        LinkedList list = new LinkedList();
+        while (text.hasNextLine()) {
+            Scanner lineScanner = new Scanner(text.nextLine());
+            Pattern p = Pattern.compile("[^a-zA-Z]");
+            lineScanner.useDelimiter(p);
+            while (lineScanner.hasNext() && !lineScanner.hasNextInt()) {
+                list.add(lineScanner.next());
+            }
+        }
+        String[] array = list.toArray();
+        for (int k = 0; k < list.size; k++) {
+            System.out.println("array[" + k + "] = " + array[k]);
+        }
     }
 
-    public static void decompress(Scanner text) {
+    public static void decompress(Scanner file) {
 
     }
 
@@ -57,6 +75,24 @@ public class proj1 {
                             + "9.");
         System.out.println("Please remove all digits from your text"
                             + " and try again.");
+    }
+
+    /**
+     * This method gets the arguments supplied to the main method and
+     * creates a Scanner object representation of the input file.
+     * @param mainArgs the argument given to the main method
+     * @return a Scanner object representation of the input file
+     */
+    public static Scanner getArgInput(String arg) {
+        /** A Scanner object representation of the input file */
+        Scanner input = null;
+        try {
+            input = new Scanner(new File(arg));
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to access input file: " + arg);
+            System.exit(1);
+        }
+        return input;
     }
 
     /**
@@ -82,9 +118,9 @@ public class proj1 {
 
     /**
      * This class models the state and behavior of a Linked List Stack
-     *
+     * @author Matthew F. Leader
      */
-    private class LinkedList {
+    private static class LinkedList {
 
         /** the first element in the collection */
         private Node front;
@@ -100,7 +136,7 @@ public class proj1 {
         }
 
         public boolean isEmpty() {
-            return first == null;
+            return front == null;
         }
 
         public int size() {
@@ -148,7 +184,7 @@ public class proj1 {
          * Convert the Linked List to an array
          * @return an array of the objects on the List
          */
-        public static String[] toArray() {
+        public String[] toArray() {
             String[] array = null;
             if (!isEmpty()) {
                 array = new String[size];
@@ -188,7 +224,7 @@ public class proj1 {
          * @return the Node removed from the list
          */
         private Node remove(int index) {
-
+            return null;
         }
 
 
