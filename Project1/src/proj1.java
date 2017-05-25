@@ -12,12 +12,47 @@ public class proj1 {
 
     public static void main(String[] args) {
 
+        /*
+        LinkedList list = new LinkedList();
+        String str0 = "love";
+        String str1 = "me";
+        String str2 = "do";
+
+        System.out.println("list.size() = " + list.size());
+        System.out.println("list.isEmpty() = " + list.isEmpty());
+
+        list.add(str0);
+        System.out.println("list.size() = " + list.size());
+        System.out.println("list.toArray()[0] = " + list.toArray()[0]);
+        System.out.println("list.get(0) = " + list.get(0));
+        System.out.println("list.isEmpty() = " + list.isEmpty());
+        System.out.println("----------------------");
+
+        list.add(str1);
+        System.out.println("list.size() = " + list.size());
+        System.out.println("list.toArray()[0] = " + list.toArray()[0]);
+        System.out.println("list.toArray()[1] = " + list.toArray()[1]);
+        System.out.println("list.get(0) = " + list.get(0));
+        System.out.println("list.get(1) = " + list.get(1));
+        System.out.println("----------------------");
+
+        list.add(str2);
+        System.out.println("list.size() = " + list.size());
+        System.out.println("list.toArray()[0] = " + list.toArray()[0]);
+        System.out.println("list.toArray()[1] = " + list.toArray()[1]);
+        System.out.println("list.toArray()[2] = " + list.toArray()[2]);
+        System.out.println("list.get(0) = " + list.get(0));
+        System.out.println("list.get(1) = " + list.get(1));
+        System.out.println("list.get(2) = " + list.get(2));
+        System.out.println("----------------------");
+        */
+
         Scanner console = new Scanner(System.in);
         String filename = null;
         Scanner input = null;
 
         while (input == null) {
-            System.out.println("Text Compressor and Decompressor.")
+            System.out.println("Text Compressor and Decompressor.");
             System.out.print("input file name: ");
             filename = console.nextLine();
             input = getInputScanner(filename);
@@ -35,22 +70,61 @@ public class proj1 {
         }
     }
 
-    public static boolean validateNoDigits(Scanner text) {
+    public static boolean validateNoDigits(Scanner fileScanner) {
         return true;
     }
 
 
-    public static void compress(Scanner text) {
+    public static void compress(Scanner fileScanner) {
+        LinkedList list = new LinkedList();
+        int listIndex;
+        Pattern nonLetterCharacter = Pattern.compile("[^a-zA-Z]");
+        Pattern letterChar = Pattern.compile("[a-zA-Z]");
+        while (fileScanner.hasNextLine()) {
+            Scanner lineScanner = new Scanner(fileScanner.nextLine());
+            lineScanner.useDelimiter(nonLetterCharacter);
+            while (lineScanner.hasNext()) {
+                String text = lineScanner.next();
+                //System.out.println("text1 = " + text);
+                listIndex = list.find(text);
+                //System.out.println("listIndex = " + listIndex);
+                //System.out.println("list.get(listIndex) = " + list.get(listIndex));
+                //System.out.println("list.get(0) = " + list.get(0));
+                if (listIndex == -1) {
+                    System.out.print(text);
+                    //System.out.println("text.length() = " + text.length());
+                } else {
+                    System.out.print(listIndex + 1);
+                }
+                //System.out.println("list.size() =" + list.size());
+                list.add(text);
+                //System.out.println("list.size() =" + list.size());
+                //lineScanner.useDelimiter(letterChar);
+                while (lineScanner.hasNext("[^a-zA-Z]&&[ \\t\\n\\f\\r]")) {
+                    System.out.print(lineScanner.findInLine(nonLetterCharacter));
+                }
 
+                //lineScanner.useDelimiter(nonLetterCharacter);
+                //System.out.println(lineScanner.next());
+
+                /*
+                System.out.println("---LIST---");
+                for (int k = 0; k < list.size(); k++) {
+                    System.out.println(list.get(k));
+                }
+                System.out.println("---END----");
+                */
+            }
+        }
     }
 
-    public static void decompress(Scanner text) {
+    public static void decompress(Scanner fileScanner) {
 
     }
 
     public static void digitsUsageMessage() {
         System.out.println("Your text contains at least one digit from"
-                            + " the series 0, 1, 2, 3, 4, 5, 6, 7, 8, "
+                            + " the sequence 0, 1, 2, 3, 4, 5, 6, 7, 8, "
                             + "9.");
         System.out.println("Please remove all digits from your text"
                             + " and try again.");
@@ -108,8 +182,16 @@ public class proj1 {
          *              the data to add to the list
          */
         public void add(String data) {
-            remove(data);
-            front = new Node(data, front);
+            if (front == null) {
+                front = new Node(data, null);
+            } else {
+                //System.out.println("list.remove(data) = " + remove(data));
+                front = new Node(data, front);
+            }
+
+            //System.out.println("data = " + data);
+
+            //System.out.println("front.data = " + front.data);
             size++;
         }
 
@@ -118,17 +200,17 @@ public class proj1 {
          * @param data
          *              the String to look for on the list
          * @return if the String is on the list, then return the index,
-         *          otherwise return 0
+         *          otherwise return -1
          */
         public int find(String data) {
-            int index = 0;
+            int index = -1;
             for (Node k = front; k != null; k = k.next) {
+                index++;
                 if (k.data.equals(data)) {
                     return index;
                 }
-                index++;
             }
-            return index;
+            return -1;
         }
 
         /**
@@ -175,6 +257,16 @@ public class proj1 {
             return array;
         }
 
+        public String get(int index) {
+            Node current = front;
+            for (int k = 0; k < index; k++) {
+                current = current.next;
+            }
+            if (current != null) {
+                return current.data;
+            }
+            return null;
+        }
 
 
         /**
