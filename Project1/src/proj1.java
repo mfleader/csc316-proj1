@@ -78,34 +78,46 @@ public class proj1 {
     public static void compress(Scanner fileScanner) {
         LinkedList list = new LinkedList();
         int listIndex;
+        int uncompCharCt = 0;
+        int compCharCt = 0;
         Pattern nonLetterCharacter = Pattern.compile("[^a-zA-Z]");
         Pattern letterChar = Pattern.compile("[a-zA-Z]");
+        System.out.print("0_");
         while (fileScanner.hasNextLine()) {
-            Scanner lineScanner = new Scanner(fileScanner.nextLine());
+            String line = fileScanner.nextLine();
+            uncompCharCt += line.toCharArray().length;
+            Scanner lineScanner = new Scanner(line);
             lineScanner.useDelimiter(nonLetterCharacter);
             while (lineScanner.hasNext()) {
                 String text = lineScanner.next();
+
                 //System.out.println("text1 = " + text);
                 listIndex = list.find(text);
                 //System.out.println("listIndex = " + listIndex);
                 //System.out.println("list.get(listIndex) = " + list.get(listIndex));
                 //System.out.println("list.get(0) = " + list.get(0));
                 if (listIndex == -1) {
+                    compCharCt += text.toCharArray().length;
                     System.out.print(text);
                     //System.out.println("text.length() = " + text.length());
                 } else {
+                    compCharCt += (Integer.toString(listIndex + 1).length());
                     System.out.print(listIndex + 1);
                 }
                 //System.out.println("list.size() =" + list.size());
                 list.add(text);
                 //System.out.println("list.size() =" + list.size());
-                //lineScanner.useDelimiter(letterChar);
-                while (lineScanner.hasNext("[^a-zA-Z]&&[ \\t\\n\\f\\r]")) {
-                    System.out.print(lineScanner.findInLine(nonLetterCharacter));
+                lineScanner.useDelimiter(letterChar);
+                //lineScanner.hasNext("[^a-zA-Z]&&[ \\t\\n\\f\\r]")
+                //while (lineScanner.hasNext(nonLetterCharacter)) {
+                    //System.out.print(lineScanner.findInLine(nonLetterCharacter));
+                //}
+                if (lineScanner.hasNext()) {
+                    String specialCharacters = lineScanner.next();
+                    compCharCt += specialCharacters.toCharArray().length;
+                    System.out.print(specialCharacters);
                 }
-
-                //lineScanner.useDelimiter(nonLetterCharacter);
-                //System.out.println(lineScanner.next());
+                lineScanner.useDelimiter(nonLetterCharacter);
 
                 /*
                 System.out.println("---LIST---");
@@ -115,12 +127,21 @@ public class proj1 {
                 System.out.println("---END----");
                 */
             }
+            if (fileScanner.hasNextLine()) {
+                System.out.println();
+            }
         }
+
+        System.out.println("\n0_Uncompressed: " + uncompCharCt + " bytes;"
+                            + " Compressed: " + compCharCt + " bytes");
+
     }
 
     public static void decompress(Scanner fileScanner) {
 
     }
+
+
 
     public static void digitsUsageMessage() {
         System.out.println("Your text contains at least one digit from"
