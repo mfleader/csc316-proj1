@@ -4,7 +4,6 @@ import java.io.*;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-import compress.util.LinkedList;
 
 
 /**
@@ -66,6 +65,15 @@ public class proj1 {
 
         System.out.println("\n0 Uncompressed: " + uncompCharCt + " bytes;"
                             + " Compressed: " + compCharCt + " bytes");
+        
+        System.out.println();
+        System.out.println();
+        System.out.println("---LIST---");
+        System.out.println("list size = " + list.size());
+        for (int k = 0; k < list.size(); k++) {
+            System.out.println("list.get(" + k + ") = " + list.get(k));
+        }
+        System.out.println("---END----");
 
     }
 
@@ -73,22 +81,21 @@ public class proj1 {
         LinkedList list = new LinkedList();
         int listIndex;
 
-        Pattern nonLetterCharacter = Pattern.compile("[^a-zA-Z]");
-        Pattern letterChar = Pattern.compile("[a-zA-Z]");
+        Pattern nonLetterCharacter = Pattern.compile("[^a-zA-Z0-9]");
+        Pattern letterChar = Pattern.compile("[a-zA-Z0-9]");
         fileScanner.findInLine("0 ");
         while (fileScanner.hasNextLine()) {
             String line = fileScanner.nextLine();
             Scanner lineScanner = new Scanner(line);
             lineScanner.useDelimiter(nonLetterCharacter);
             while (lineScanner.hasNext()) {
-                String text = lineScanner.next();
-                listIndex = list.find(text);
-                if (listIndex == -1) {
+            	if (lineScanner.hasNextInt()) {
+            		System.out.print(list.get(lineScanner.nextInt()));
+            	} else {
+                    String text = lineScanner.next();
+                    list.add(text);
                     System.out.print(text);
-                } else {
-                    System.out.print(listIndex + 1);
-                }
-                list.add(text);
+            	}            	
                 lineScanner.useDelimiter(letterChar);
                 if (lineScanner.hasNext()) {
                     String specialCharacters = lineScanner.next();
@@ -100,33 +107,17 @@ public class proj1 {
                 System.out.println();
             }
         }
-    }
-
-
-
-    public static void digitsUsageMessage() {
-        System.out.println("Your text contains at least one digit from"
-                            + " the sequence 0, 1, 2, 3, 4, 5, 6, 7, 8, "
-                            + "9.");
-        System.out.println("Please remove all digits from your text"
-                            + " and try again.");
-    }
-
-    /**
-     * Returns a Scanner for input from a file.
-     *
-     * @param console
-     *              Scanner for console
-     * @return Scanner for input from a file
-     */
-    public static Scanner getInputScanner(String filename) {
-        Scanner input = null;
-        try {
-            input = new Scanner(new File(filename));
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found. Please try again.");
+        
+        System.out.println();
+        System.out.println();
+        System.out.println("---LIST---");
+        System.out.println("list size = " + list.size());
+        for (int k = 0; k < list.size(); k++) {
+            System.out.println("list.get(" + k + ") = " + list.get(k));
         }
-        return input;
+        System.out.println("---END----");
+        
+        
     }
 }
 

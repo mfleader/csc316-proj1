@@ -1,7 +1,7 @@
 /**
  * 
  */
-package compress.util;
+package compression;
 
 import static org.junit.Assert.*;
 
@@ -14,15 +14,17 @@ import org.junit.Test;
 public class LinkedListTest {
 
 	/**
-	 * Test method for {@link compress.util.LinkedList#LinkedList()}.
+	 * Test method for {@link compression.LinkedList#LinkedList()}.
 	 */
 	@Test
 	public void testLinkedList() {
-		fail("Not yet implemented");
+		LinkedList list = new LinkedList();
+		assertTrue(list.isEmpty());
+		assertEquals(0, list.size());
 	}
 
 	/**
-	 * Test method for {@link compress.util.LinkedList#isEmpty()}.
+	 * Test method for {@link compression.LinkedList#isEmpty()}.
 	 */
 	@Test
 	public void testIsEmpty() {
@@ -30,7 +32,7 @@ public class LinkedListTest {
 	}
 
 	/**
-	 * Test method for {@link compress.util.LinkedList#size()}.
+	 * Test method for {@link compression.LinkedList#size()}.
 	 */
 	@Test
 	public void testSize() {
@@ -38,7 +40,7 @@ public class LinkedListTest {
 	}
 
 	/**
-	 * Test method for {@link compress.util.LinkedList#add(java.lang.String)}.
+	 * Test method for {@link compression.LinkedList#add(java.lang.String)}.
 	 */
 	@Test
 	public void testAdd() {
@@ -46,7 +48,7 @@ public class LinkedListTest {
 	}
 
 	/**
-	 * Test method for {@link compress.util.LinkedList#find(java.lang.String)}.
+	 * Test method for {@link compression.LinkedList#find(java.lang.String)}.
 	 */
 	@Test
 	public void testFind() {
@@ -54,7 +56,7 @@ public class LinkedListTest {
 	}
 
 	/**
-	 * Test method for {@link compress.util.LinkedList#toArray()}.
+	 * Test method for {@link compression.LinkedList#toArray()}.
 	 */
 	@Test
 	public void testToArray() {
@@ -62,7 +64,7 @@ public class LinkedListTest {
 	}
 
 	/**
-	 * Test method for {@link compress.util.LinkedList#get(int)}.
+	 * Test method for {@link compression.LinkedList#get(int)}.
 	 */
 	@Test
 	public void testGet() {

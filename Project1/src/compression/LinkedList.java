@@ -1,4 +1,4 @@
-package compress.util;
+package compression;
 
 /**
 * This class models the state and behavior of a Linked List Stack
