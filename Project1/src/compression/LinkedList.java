@@ -36,11 +36,12 @@ public class LinkedList {
     public void add(String data) {
     	if (front == null) {
     		front = new Node(data, null);
-    		} else {
-                front = new Node(data, front);
-            }
-            size++;
-        }
+    	} else {
+    		remove(data);
+    		front = new Node(data, front);
+    	}
+        size++;
+    }
 
     /**
      * Find a String on the list.
@@ -50,40 +51,40 @@ public class LinkedList {
      *  otherwise return -1
      *  */
     public int find(String data) {
-            int index = -1;
-            for (Node k = front; k != null; k = k.next) {
-                index++;
-                if (k.data.equals(data)) {
-                    return index;
-                }
-            }
-            return -1;
+    	int index = -1;
+    	for (Node k = front; k != null; k = k.next) {
+    		index++;
+    		if (k.data.equals(data)) {
+    			return index;
+    		}
+    	}
+    	return -1;
+    }
+    
+    /**
+     * Remove a Node with the given data, if it exists
+     * @param data
+     * 			the data to remove from the list
+     * @return the Node removed from the list
+     */
+    private String remove(String data) {
+    	Node current = front;
+    	Node previous = null;
+    	while (current != null && !current.data.equals(data)) {
+    		previous = current;
+    		current = current.next;
+    	}
+    	if (current != null) {
+    		if (current == front) {
+    			front = front.next;
+    		} else {
+    		previous.next = current.next;
+    		}
+    		size--;
+    		return current.data;
         }
-
-        /**
-         * Remove a Node with the given data, if it exists
-         * @param data
-         *              the data to remove from the list
-         * @return the Node removed from the list
-         */
-        private String remove(String data) {
-            Node current = front;
-            Node previous = null;
-            while (current != null && !current.data.equals(data)) {
-                previous = current;
-                current = current.next;
-            }
-            if (current != null) {
-                if (current == front) {
-                    front = front.next;
-                } else {
-                    previous.next = current.next;
-                }
-                size--;
-                return current.data;
-            }
-            return null;
-        }
+    	return null;
+    }
 
         /**
          * Convert the Linked List to an array
